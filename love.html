@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Для тебя ❤️</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+            text-align: center;
+            background-color: #ffe6e6;
+        }
+
+        #main-container {
+            position: relative;
+            z-index: 10;
+            max-width: 600px;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .fade-text {
+            font-size: 2rem;
+            color: #d63384;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            font-weight: bold;
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .buttons-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        #yes-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        #no-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        /* Финальный экран */
+        #final-screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            z-index: 20;
+        }
+
+        #final-screen img {
+            max-width: 300px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+        }
+
+        #final-text {
+            font-size: 1.3rem;
+            color: #d63384;
+            line-height: 1.6;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            max-width: 80%;
+        }
+
+        /* Анимация падающих сердечек */
+        .heart {
+            position: fixed;
+            top: -10vh;
+            font-size: 1.5rem;
+            color: #ff4d6d;
+            animation: fall linear forwards;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(360deg);
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="main-container">
+        <div id="text-area"></div>
+        
+        <div id="buttons-block" class="buttons-container">
+            <h2 style="color: #d63384; margin-bottom: 30px;">Но ты меня правда любишь ?🥺</h2>
+            <div style="display: flex; gap: 20px; align-items: center; justify-content: center; flex-wrap: wrap;">
+                <button id="yes-btn" class="btn">Да</button>
+                <button id="no-btn" class="btn">Нет</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="final-screen">
+        <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGU3anhxcXdxZWtjbWMwZmkxc3Bza3Jpazg0dWY1bmNhNG4xNzcxZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/n9sYMluCMWYPbSEyCu/giphy.gif" alt="Cute GIF">
+        <div id="final-text">
+            И я тебя люблю безумно сильно моя любимая киса, солнышко моё красивенькое, 
+            мой лучик который дарит мне любовь и ласку, ты у меня самая любимая зайка🥹🥹❤️❤️❤️
+        </div>
+    </div>
+
+    <script>
+        const textArea = document.getElementById('text-area');
+        const buttonsBlock = document.getElementById('buttons-block');
+        const yesBtn = document.getElementById('yes-btn');
+        const noBtn = document.getElementById('no-btn');
+        const mainContainer = document.getElementById('main-container');
+        const finalScreen = document.getElementById('final-screen');
+
+        // Последовательность фраз
+        const phrases = [
+            "Привет",
+            "Я тут так подумал",
+            "Я не знаю как тебе сказать..."
+        ];
+
+        let step = 0;
+
+        // Функция для показа текста с затуханием
+        function showTextSequence() {
+            if (step < phrases.length) {
+                const p = document.createElement('p');
+                p.classList.add('fade-text');
+                p.innerText = phrases[step];
+                textArea.appendChild(p);
+
+                // Появление
+                setTimeout(() => {
+                    p.style.opacity = 1;
+                }, 100);
+
+                // Исчезновение и переход к следующему
+                setTimeout(() => {
+                    p.style.opacity = 0;
+                    setTimeout(() => {
+                        textArea.removeChild(p);
+                        step++;
+                        showTextSequence();
+                    }, 1000); 
+                }, 2500); // Сколько висит текст (2.5 сек)
+            } else {
+                // Показать кнопки после всех текстов
+                setTimeout(() => {
+                    buttonsBlock.style.display = 'flex';
+                }, 500);
+            }
+        }
+
+        // Запуск последовательности
+        showTextSequence();
+
+        // Логика кнопки "Нет"
+        const noTexts = [
+            "Не понял???", 
+            "Почему???", 
+            "Ты правда меня не любишь???", 
+            "Ты точно подумала????",
+            "Ну пожалуйста...",
+            "Разбиваешь сердце 💔"
+        ];
+        let noClickCount = 0;
+        let yesBtnFontSize = 1.2;
+        let yesBtnPadding = 15;
+
+        noBtn.addEventListener('click', () => {
+            noClickCount++;
+            
+            // Меняем текст на кнопке Нет
+            if (noClickCount <= noTexts.length) {
+                noBtn.innerText = noTexts[noClickCount - 1];
+            } else {
+                noBtn.innerText = "Ну нажми Да уже!";
+            }
+
+            // Увеличиваем кнопку Да
+            yesBtnFontSize += 0.5;
+            yesBtnPadding += 5;
+            yesBtn.style.fontSize = `${yesBtnFontSize}rem`;
+            yesBtn.style.padding = `${yesBtnPadding}px ${yesBtnPadding * 2}px`;
+
+            // Уменьшаем кнопку Нет
+            const currentFontSize = window.getComputedStyle(noBtn).fontSize;
+            const newSize = parseFloat(currentFontSize) * 0.8;
+            noBtn.style.fontSize = `${newSize}px`;
+        });
+
+        // Логика кнопки "Да"
+        yesBtn.addEventListener('click', () => {
+            mainContainer.style.display = 'none';
+            finalScreen.style.display = 'flex';
+            startFallingHearts();
+        });
+
+        // Падающие сердечки
+        function startFallingHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerText = ['❤️', '💖', '💕', '🥰', '😍'][Math.floor(Math.random() * 5)];
+                
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = Math.random() * 2 + 3 + 's'; // 3-5 секунд падения
+                heart.style.fontSize = Math.random() * 1.5 + 1 + 'rem';
+                
+                document.body.appendChild(heart);
+
+                // Удаляем сердечко после анимации, чтобы не нагружать память
+                setTimeout(() => {
+                    heart.remove();
+                }, 5000);
+            }, 300);
+        }
+    </script>
+</body>
+</html>
